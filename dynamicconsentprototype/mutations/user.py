@@ -29,14 +29,11 @@ class UpdateUser(Mutation):
         email = String()
         first_name = String()
         last_name = String()
-        consents = List(String)
 
     user = Field(lambda: User)
 
     @staticmethod
-    def mutate(
-        root, info, id, email=None, first_name=None, last_name=None, consents=None
-    ):
+    def mutate(root, info, id, email=None, first_name=None, last_name=None):
         user = UserModel.objects.get(id=id)
         if email:
             user.email = email
@@ -44,13 +41,47 @@ class UpdateUser(Mutation):
             user.first_name = first_name
         if last_name:
             user.last_name = last_name
-        if consents:
-            for consent in consents:
-                consent = ConsentModel.objects.get(id=consent)
-                user.consents.append(consent)
 
         user.save()
         return UpdateUser(user=user)
+
+
+class AddConsents(Mutation):
+    class Arguments:
+        user_id = String(required=True)
+        consent_ids = List(String)
+
+    user = Field(lambda: User)
+
+    @staticmethod
+    def mutate(root, info, user_id, consent_ids):
+        user = UserModel.objects.get(id=user_id)
+
+        for consent_id in consent_ids:
+            consent = ConsentModel.objects.get(id=consent_id)
+            user.consents.append(consent)
+
+        user.save()
+        return AddConsents(user=user)
+
+
+class RevokeConsents(Mutation):
+    class Arguments:
+        user_id = String(required=True)
+        consent_ids = List(String)
+
+    user = Field(lambda: User)
+
+    @staticmethod
+    def mutate(root, info, user_id, consent_ids):
+        user = UserModel.objects.get(id=user_id)
+
+        for consent_id in consent_ids:
+            consent = ConsentModel.objects.get(id=consent_id)
+            user.consents.remove(consent)
+
+        user.save()
+        return RevokeConsents(user=user)
 
 
 class DeleteUser(Mutation):

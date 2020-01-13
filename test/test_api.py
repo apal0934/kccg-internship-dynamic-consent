@@ -102,6 +102,58 @@ def test_user_update():
     }
 
 
+def test_user_add_consents():
+    payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: false) {\\n    consent {\\n     id\\n    name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
+    headers = {"content-type": "application/json"}
+    res = client.post("/", headers=headers, data=payload)
+    consent_id = res.json()["data"]["createConsent"]["consent"]["id"]
+    payload = '{"query":"mutation {\\n  createUser(email: \\"test@test.com\\", firstName: \\"Test\\", lastName: \\"User\\") {\\n    user {\\n      id\\n firstName\\n    }\\n  }\\n}\\n"}'
+    res = client.post("/", headers=headers, data=payload)
+    user_id = res.json()["data"]["createUser"]["user"]["id"]
+    payload = (
+        '{"query":"mutation {\\n  addConsents(userId: \\"%s\\", consentIds: [\\"%s\\"]) {\\n    user {\\n      firstName\\n      consents {\\n        name\\n purpose \\n commercial \\n      }\\n    }\\n  }\\n}\\n"}'
+        % (user_id, consent_id)
+    )
+    res = client.post("/", headers=headers, data=payload)
+    assert res.status_code == 200
+    assert res.json() == {
+        "data": {
+            "addConsents": {
+                "user": {
+                    "firstName": "Test",
+                    "consents": [
+                        {"name": "Test", "purpose": "Research", "commercial": False}
+                    ],
+                }
+            }
+        },
+        "errors": None,
+    }
+
+
+def test_user_revoke_consents():
+    payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: true) {\\n    consent {\\n     id\\n    name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
+    headers = {"content-type": "application/json"}
+    res = client.post("/", headers=headers, data=payload)
+    consent_id = res.json()["data"]["createConsent"]["consent"]["id"]
+    payload = (
+        '{"query":"mutation {\\n  createUser(email: \\"test@test.com\\", firstName: \\"Test\\", lastName: \\"User\\", consents: \\"%s\\") {\\n    user {\\n      id\\n firstName\\n    }\\n  }\\n}\\n"}'
+        % consent_id
+    )
+    res = client.post("/", headers=headers, data=payload)
+    user_id = res.json()["data"]["createUser"]["user"]["id"]
+    payload = (
+        '{"query":"mutation {\\n  revokeConsents(userId: \\"%s\\", consentIds: [\\"%s\\"]) {\\n    user {\\n      firstName\\n      consents {\\n        name\\n purpose \\n commercial \\n      }\\n    }\\n  }\\n}\\n"}'
+        % (user_id, consent_id)
+    )
+    res = client.post("/", headers=headers, data=payload)
+    assert res.status_code == 200
+    assert res.json() == {
+        "data": {"revokeConsents": {"user": {"firstName": "Test", "consents": []}}},
+        "errors": None,
+    }
+
+
 def test_consent_update():
     payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: true) {\\n    consent {\\n     id\\n    name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
     headers = {"content-type": "application/json"}
