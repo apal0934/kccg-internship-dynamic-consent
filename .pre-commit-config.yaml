@@ -32,13 +32,6 @@ repos:
     types: [python]
     pass_filenames: false
 
-  - id: pytest
-    name: pytest
-    stages: [commit]
-    language: system
-    entry: pipenv run pytest
-    types: [python]
-
   - id: pytest-cov
     name: pytest
     stages: [push]
