@@ -1,7 +1,17 @@
 from graphene import ObjectType
 
-from consent import CreateConsent, DeleteConsent, UpdateConsent
-from user import AddConsents, CreateUser, DeleteUser, RevokeConsents, UpdateUser
+from dynamicconsentprototype.mutations.consent import (
+    CreateConsent,
+    DeleteConsent,
+    UpdateConsent,
+)
+from dynamicconsentprototype.mutations.user import (
+    AddConsents,
+    CreateUser,
+    DeleteUser,
+    RevokeConsents,
+    UpdateUser,
+)
 
 
 class Mutations(ObjectType):
