@@ -19,6 +19,7 @@ pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
 mongomock = "*"
+pytest-custom-exit-code = "*"
 
 [pipenv]
 allow_prereleases = true
