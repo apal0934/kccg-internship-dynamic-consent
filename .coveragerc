@@ -1,5 +1,5 @@
 [run]
-source = DynamicConsentPrototype
+source = dynamicconsentprototype
 
 [report]
 exclude_lines =

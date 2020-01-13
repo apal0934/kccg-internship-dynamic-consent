@@ -1,17 +1,19 @@
-import pytest
 from mongoengine import connect, disconnect_all
+from mongoengine.connection import _get_db
 from starlette.testclient import TestClient
 
 from dynamicconsentprototype.main import app
 
 
-@pytest.fixture()
-def db():
-    conn = connect("mongoenginetest", host="mongomock://localhost")
+def setup_function(function):
+    connect("mongoenginetest", host="mongomock://localhost")
 
-    def teardown():
-        conn.drop_database("mongoenginetest")
-        disconnect_all()
+
+def teardown_function(function):
+    conn = _get_db()
+    for collection in conn.list_collection_names():
+        conn.drop_collection(collection)
+    disconnect_all
 
 
 client = TestClient(app)
@@ -23,7 +25,7 @@ def test_server_running():
     assert response.text == "No GraphQL query found in the request"
 
 
-def test_consent_create(db):
+def test_consent_create():
     payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: true) {\\n    consent {\\n      name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
     headers = {"content-type": "application/json"}
     response = client.post("/", headers=headers, data=payload)
@@ -46,7 +48,7 @@ def test_consent_create(db):
     }
 
 
-def test_user_create(db):
+def test_user_create():
     payload = '{"query":"mutation {\\n  createUser(email: \\"test@test.com\\", firstName: \\"Test\\", lastName: \\"User\\") {\\n    user {\\n      email\\n      firstName\\n      lastName\\n    }\\n  }\\n}\\n"}'
     headers = {"content-type": "application/json"}
     response = client.post("/", headers=headers, data=payload)
@@ -75,7 +77,7 @@ def test_user_create(db):
     }
 
 
-def test_user_update(db):
+def test_user_update():
     payload = '{"query":"mutation {\\n  createUser(email: \\"test@test.com\\", firstName: \\"Test\\", lastName: \\"User\\") {\\n    user {\\n      id\\n firstName\\n    }\\n  }\\n}\\n"}'
     headers = {"content-type": "application/json"}
     res = client.post("/", headers=headers, data=payload)
@@ -100,7 +102,7 @@ def test_user_update(db):
     }
 
 
-def test_consent_update(db):
+def test_consent_update():
     payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: true) {\\n    consent {\\n     id\\n    name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
     headers = {"content-type": "application/json"}
     res = client.post("/", headers=headers, data=payload)
@@ -110,7 +112,6 @@ def test_consent_update(db):
         % ID
     )
     res = client.post("/", headers=headers, data=payload)
-    print(res.text)
     assert res.status_code == 200
     assert res.json() == {
         "data": {
@@ -120,3 +121,35 @@ def test_consent_update(db):
         },
         "errors": None,
     }
+
+
+def test_user_delete():
+    payload = '{"query":"mutation {\\n  createUser(email: \\"test@test.com\\", firstName: \\"Test\\", lastName: \\"User\\") {\\n    user {\\n      id\\n firstName\\n    }\\n  }\\n}\\n"}'
+    headers = {"content-type": "application/json"}
+    res = client.post("/", headers=headers, data=payload)
+    ID = res.json()["data"]["createUser"]["user"]["id"]
+    payload = (
+        '{"query":"mutation {\\n  deleteUser(id: \\"%s\\"){\\n    user {\\n      firstName\\n    }\\n  }\\n}\\n"}'
+        % ID
+    )
+    res = client.post("/", headers=headers, data=payload)
+    assert res.status_code == 200
+    payload = '{"query":"{\\n  users {\\n    email\\n    firstName\\n    lastName\\n  }\\n}\\n"}'
+    res = client.post("/", headers=headers, data=payload)
+    assert res.json() == {"data": {"users": []}, "errors": None}
+
+
+def test_consent_delete():
+    payload = '{"query":"mutation {\\n  createConsent(name: \\"Test\\", purpose: \\"Research\\", commercial: true) {\\n    consent {\\n     id\\n    name\\n      purpose\\n      commercial\\n    }\\n  }\\n}\\n"}'
+    headers = {"content-type": "application/json"}
+    res = client.post("/", headers=headers, data=payload)
+    ID = res.json()["data"]["createConsent"]["consent"]["id"]
+    payload = (
+        '{"query":"mutation {\\n  deleteConsent(id: \\"%s\\"){\\n    consent {\\n      name\\n    }\\n  }\\n}\\n"}'
+        % ID
+    )
+    res = client.post("/", headers=headers, data=payload)
+    assert res.status_code == 200
+    payload = '{"query":"{\\n  consents {\\n    name\\n    purpose\\n    commercial\\n  }\\n}\\n"}'
+    res = client.post("/", headers=headers, data=payload)
+    assert res.json() == {"data": {"consents": []}, "errors": None}
