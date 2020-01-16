@@ -38,7 +38,14 @@ const columns = [
         key: "action",
         render: (text, record) => (
             <span>
-                <Link to={`/user/${record.id}`}>
+                <Link
+                    to={{
+                        pathname: `/user/${record.id}`,
+                        state: {
+                            firstName: record.firstName
+                        }
+                    }}
+                >
                     <Icon type="control" style={{ fontSize: 24 }} />
                 </Link>
             </span>

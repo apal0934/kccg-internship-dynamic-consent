@@ -160,31 +160,20 @@ export class User extends Component {
             }
         ];
         return (
-            <LoadingScreen
-                loading={this.state.loading}
-                bgColor="#f1f1f1"
-                spinnerColor="#9ee5f8"
-                textColor="#676767"
-                text="Loading"
-            >
-                <div>
-                    <PageHeader
-                        title={`${
-                            !this.state.loading
-                                ? this.state.data.user.firstName
-                                : ""
-                        }'s Consents`}
-                        breadcrumb={{ routes }}
-                    />
-                    <Table
-                        columns={columns}
-                        dataSource={
-                            !this.state.loading ? this.state.data.consents : []
-                        }
-                        rowKey="id"
-                    />
-                </div>
-            </LoadingScreen>
+            <div>
+                <PageHeader
+                    title={`${this.props.location.state.firstName}'s Consents`}
+                    breadcrumb={{ routes }}
+                />
+                <Table
+                    columns={columns}
+                    loading={this.state.loading}
+                    dataSource={
+                        !this.state.loading ? this.state.data.consents : []
+                    }
+                    rowKey="id"
+                />
+            </div>
         );
     }
 }
