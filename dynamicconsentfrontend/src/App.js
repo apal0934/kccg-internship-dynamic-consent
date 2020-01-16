@@ -5,6 +5,7 @@ import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Header from "./Components/Header";
 import Users from "./Pages/User/Users";
 import User from "./Pages/User/User";
+import AddUser from "./Pages/User/AddUser";
 import Consents from "./Pages/Consent/Consents";
 import Landing from "./Pages/Landing";
 
@@ -15,9 +16,10 @@ function App() {
                 <Header />
                 <Switch>
                     <Route exact path="/" component={Landing} />
-                    <Route path="/users" component={Users} />
-                    <Route path="/consents" component={Consents} />
+                    <Route exact path="/user/list" component={Users} />
+                    <Route exact path="/user/add" component={AddUser} />
                     <Route path="/user/:id" component={User} />
+                    <Route path="/consents" component={Consents} />
                 </Switch>
             </Router>
         </div>

@@ -22,12 +22,12 @@ const Header = () => {
                 <Menu.Item key="users">
                     <Icon type="team" />
                     View users
-                    <Link to={"/users"}></Link>
+                    <Link to={"/user/list"}></Link>
                 </Menu.Item>
                 <Menu.Item key="addUser">
                     <Icon type="user-add" />
                     Add user
-                    <Link to={"/add_user"}></Link>
+                    <Link to={"/user/add"}></Link>
                 </Menu.Item>
             </SubMenu>
             <SubMenu
