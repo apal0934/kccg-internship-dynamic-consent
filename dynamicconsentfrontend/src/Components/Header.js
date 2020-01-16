@@ -4,13 +4,9 @@ import { Link } from "react-router-dom";
 
 const { SubMenu } = Menu;
 
-function onClick() {
-    console.log("Aaa");
-}
-
 const Header = () => {
     return (
-        <Menu onClick={onClick} mode="horizontal">
+        <Menu mode="horizontal">
             <Menu.Item key="home">
                 <Icon type="home" />
                 Home
