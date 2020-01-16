@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -39,9 +39,14 @@ const columns = [
         key: "action",
         render: (text, record) => (
             <span>
-                <Link to={{pathname: `/user/${record.id}`, state: {
-                    firstName: record.firstName
-                }}}>
+                <Link
+                    to={{
+                        pathname: `/user/${record.id}`,
+                        state: {
+                            firstName: record.firstName
+                        }
+                    }}
+                >
                     <Icon type="control" style={{ fontSize: 24 }} />
                 </Link>
             </span>

@@ -5,7 +5,6 @@ import { HttpLink } from "apollo-link-http";
 
 import gql from "graphql-tag";
 
-import LoadingScreen from "react-loading-screen";
 import { PageHeader, Table, Icon, Switch, Layout } from "antd";
 const { Content } = Layout;
 export class User extends Component {
@@ -24,8 +23,7 @@ export class User extends Component {
             cache,
             link
         });
-        const data = 2;
-        const loading = true;
+
         client
             .query({
                 query: gql`

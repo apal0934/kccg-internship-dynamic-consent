@@ -1,6 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from "./Components/Header";
 import Users from "./Pages/User/Users";
