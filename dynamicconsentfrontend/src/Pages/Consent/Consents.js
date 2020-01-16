@@ -3,8 +3,8 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import LoadingScreen from "react-loading-screen";
-import { Table, Icon } from "antd";
-
+import { Table, Icon, Layout } from "antd";
+const { Content } = Layout;
 const GET_CONSENTS = gql`
     query {
         consents {
@@ -43,7 +43,18 @@ const Consents = () => {
     if (!data) return <p>cnf</p>;
     if (!data.consents) return <p>cnfc</p>;
 
-    return <Table columns={columns} dataSource={data.consents} rowKey="id" />;
+    return (
+        <Content style={{ padding: "0 50px" }}>
+            <div style={{ padding: 24, minHeight: 280 }}>
+                <Table
+                    columns={columns}
+                    dataSource={data.consents}
+                    rowKey="id"
+                    size="small"
+                />
+            </div>
+        </Content>
+    );
 };
 
 export default Consents;

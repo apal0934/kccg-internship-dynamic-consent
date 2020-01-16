@@ -6,8 +6,8 @@ import { HttpLink } from "apollo-link-http";
 import gql from "graphql-tag";
 
 import LoadingScreen from "react-loading-screen";
-import { PageHeader, Table, Icon, Switch } from "antd";
-
+import { PageHeader, Table, Icon, Switch, Layout } from "antd";
+const { Content } = Layout;
 export class User extends Component {
     state = {
         data: [],
@@ -165,14 +165,21 @@ export class User extends Component {
                     title={`${this.props.location.state.firstName}'s Consents`}
                     breadcrumb={{ routes }}
                 />
-                <Table
-                    columns={columns}
-                    loading={this.state.loading}
-                    dataSource={
-                        !this.state.loading ? this.state.data.consents : []
-                    }
-                    rowKey="id"
-                />
+                <Content style={{ padding: "0 50px" }}>
+                    <div style={{ padding: 24, minHeight: 280 }}>
+                        <Table
+                            columns={columns}
+                            loading={this.state.loading}
+                            dataSource={
+                                !this.state.loading
+                                    ? this.state.data.consents
+                                    : []
+                            }
+                            rowKey="id"
+                            size="small"
+                        />
+                    </div>
+                </Content>
             </div>
         );
     }
