@@ -4,7 +4,7 @@ A very basic prototype of a Dynamic Consent app developed as part of an internsh
 
 This is restricted to an extremely limited scope as only one component of a larger working demo for The GeneTrustee system.
 
-# Scope
+## Scope
 
 -   Create users
 -   Create consents
@@ -16,6 +16,6 @@ Anything else (user authentication, validation etc) is out of scope for demonstr
 
 Strictly speaking, the frontend is out of scope too. But it was fun to make :)
 
-# Setup
+## Setup
 
 For setup instructions, refer to the readmes in the two folders for the front- and backend.
