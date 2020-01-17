@@ -47,9 +47,7 @@ const Header = () => {
                 <Menu.Item key="addConsent">
                     <Icon type="file-add" />
                     Add consent
-                    <Link
-                        to={"/consent/adsssssssssssssssssssssssssssssssd"}
-                    ></Link>
+                    <Link to={"/consent/add"}></Link>
                 </Menu.Item>
             </SubMenu>
         </Menu>
