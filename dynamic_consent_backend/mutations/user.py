@@ -1,8 +1,8 @@
 from graphene import Field, List, Mutation, String
 
-from dynamicconsentprototype.models.consent import ConsentModel
-from dynamicconsentprototype.models.user import UserModel
-from dynamicconsentprototype.object_types.user import User
+from dynamic_consent_backend.models.consent import ConsentModel
+from dynamic_consent_backend.models.user import UserModel
+from dynamic_consent_backend.object_types.user import User
 
 
 class CreateUser(Mutation):

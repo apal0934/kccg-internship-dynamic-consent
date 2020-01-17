@@ -1,6 +1,6 @@
 from graphene_mongo import MongoengineObjectType
 
-from dynamicconsentprototype.models.consent import ConsentModel
+from dynamic_consent_backend.models.consent import ConsentModel
 
 
 class Consent(MongoengineObjectType):

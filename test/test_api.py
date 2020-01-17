@@ -2,7 +2,7 @@ from mongoengine import connect, disconnect_all
 from mongoengine.connection import _get_db
 from starlette.testclient import TestClient
 
-from dynamicconsentprototype.main import app
+from dynamic_consent_backend.main import app
 
 
 def setup_function(function):

@@ -4,11 +4,11 @@ from mongoengine import connect, disconnect_all
 from starlette.graphql import GraphQLApp
 from starlette.middleware.cors import CORSMiddleware
 
-from dynamicconsentprototype.models.consent import ConsentModel
-from dynamicconsentprototype.models.user import UserModel
-from dynamicconsentprototype.mutations.mutations import Mutations
-from dynamicconsentprototype.object_types.consent import Consent
-from dynamicconsentprototype.object_types.user import User
+from dynamic_consent_backend.models.consent import ConsentModel
+from dynamic_consent_backend.models.user import UserModel
+from dynamic_consent_backend.mutations.mutations import Mutations
+from dynamic_consent_backend.object_types.consent import Consent
+from dynamic_consent_backend.object_types.user import User
 
 
 class Query(ObjectType):

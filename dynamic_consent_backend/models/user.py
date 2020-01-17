@@ -1,7 +1,7 @@
 from mongoengine import Document
 from mongoengine.fields import ListField, ReferenceField, StringField
 
-from dynamicconsentprototype.models.consent import ConsentModel
+from dynamic_consent_backend.models.consent import ConsentModel
 
 
 class UserModel(Document):

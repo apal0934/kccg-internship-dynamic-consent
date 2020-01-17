@@ -1,7 +1,7 @@
 from graphene import Boolean, Field, Mutation, String
 
-from dynamicconsentprototype.models.consent import ConsentModel
-from dynamicconsentprototype.object_types.consent import Consent
+from dynamic_consent_backend.models.consent import ConsentModel
+from dynamic_consent_backend.object_types.consent import Consent
 
 
 class CreateConsent(Mutation):

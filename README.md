@@ -1,14 +1,18 @@
-# DynamicConsentPrototype
+#Dynamic Consent
+A very basic prototype of a Dynamic Consent app developed as part of an internship at the Garvin Institute of Medical Research (KCCG).
 
-## Setup
-```sh
-# Install dependencies
-pipenv install --dev
+This is restricted to an extremely limited scope as only one component of a larger working demo for The GeneTrustee system.
 
-# Setup pre-commit and pre-push hooks
-pipenv run pre-commit install -t pre-commit
-pipenv run pre-commit install -t pre-push
-```
+#Scope
+- Create Users
+- Create Consents
+- Delete Users
+- Delete Consents
+- Update a user's consent
 
-## Credits
-This package was created with Cookiecutter and the [sourceryai/python-best-practices-cookiecutter](https://github.com/sourceryai/python-best-practices-cookiecutter) project template.
+Anything else (user authentication, validation etc) is out of scope for demonstrating functionality.
+
+Strictly speaking, the frontend is out of scope too. But it was fun to make :)
+
+# Setup
+For setup instructions, refer to the readmes in the two folders for the front- and backend.

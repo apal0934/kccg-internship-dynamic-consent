@@ -1,11 +1,11 @@
 from graphene import ObjectType
 
-from dynamicconsentprototype.mutations.consent import (
+from dynamic_consent_backend.mutations.consent import (
     CreateConsent,
     DeleteConsent,
     UpdateConsent,
 )
-from dynamicconsentprototype.mutations.user import (
+from dynamic_consent_backend.mutations.user import (
     AddConsents,
     CreateUser,
     DeleteUser,
