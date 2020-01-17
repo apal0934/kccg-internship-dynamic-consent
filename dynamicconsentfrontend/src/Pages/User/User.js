@@ -134,11 +134,11 @@ export class User extends Component {
                 key: "purpose"
             },
             {
-                title: "Commercial",
+                title: "Non-commercial",
                 dataIndex: "commercial",
                 key: "commercial",
                 render: record =>
-                    record ? <Icon type="check" /> : <Icon type="close" />
+                    !record ? <Icon type="check" /> : <Icon type="close" />
             },
             {
                 title: "",
