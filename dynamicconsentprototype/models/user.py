@@ -1,7 +1,7 @@
 from mongoengine import Document
 from mongoengine.fields import ListField, ReferenceField, StringField
 
-from .consent import ConsentModel
+from dynamicconsentprototype.models.consent import ConsentModel
 
 
 class UserModel(Document):
@@ -9,4 +9,4 @@ class UserModel(Document):
     email = StringField(required=True)
     first_name = StringField(max_length=50)
     last_name = StringField(max_length=50)
-    consents = ListField(ReferenceField(ConsentModel))
+    consents = ListField(ReferenceField(ConsentModel, reverse_delete_rule=4))
