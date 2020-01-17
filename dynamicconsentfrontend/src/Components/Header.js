@@ -1,6 +1,7 @@
-import React from "react";
-import { Menu, Icon } from "antd";
+import { Icon, Menu } from "antd";
+
 import { Link } from "react-router-dom";
+import React from "react";
 
 const { SubMenu } = Menu;
 
@@ -41,12 +42,12 @@ const Header = () => {
                 <Menu.Item key="consents">
                     <Icon type="file-protect" />
                     View consents
-                    <Link to={"/consents"}></Link>
+                    <Link to={"/consent/list"}></Link>
                 </Menu.Item>
                 <Menu.Item key="addConsent">
                     <Icon type="file-add" />
                     Add consent
-                    <Link to={"/add_consent"}></Link>
+                    <Link to={"/consent/adsssssssssssssssssssssssssssssssd"}></Link>
                 </Menu.Item>
             </SubMenu>
         </Menu>

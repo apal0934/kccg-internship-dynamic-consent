@@ -6,6 +6,7 @@ import Users from "./Pages/User/Users";
 import User from "./Pages/User/User";
 import AddUser from "./Pages/User/AddUser";
 import Consents from "./Pages/Consent/Consents";
+import AddConsent from "./Pages/Consent/AddConsent";
 import Landing from "./Pages/Landing";
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
                     <Route exact path="/user/list" component={Users} />
                     <Route exact path="/user/add" component={AddUser} />
                     <Route path="/user/:id" component={User} />
-                    <Route path="/consents" component={Consents} />
+                    <Route path="/consent/list" component={Consents} />
+                    <Route path="/consent/add" component={AddConsent} />
                 </Switch>
             </Router>
         </div>
