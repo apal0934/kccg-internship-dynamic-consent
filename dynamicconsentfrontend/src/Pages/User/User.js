@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
-
+import { Redirect } from "react-router-dom";
 import gql from "graphql-tag";
 
 import { PageHeader, Table, Icon, Switch, Layout } from "antd";
@@ -53,12 +53,10 @@ export class User extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state !== prevState && this.state.loading) {
-            console.log(this.state.data);
             if (this.state.data.user) {
                 this.setState({
                     loading: false
                 });
-                console.log("aa");
             }
         }
     }
@@ -157,6 +155,9 @@ export class User extends Component {
                 )
             }
         ];
+        if (!this.props.location.state) {
+            return <Redirect to="/user/list" />;
+        }
         return (
             <div>
                 <PageHeader

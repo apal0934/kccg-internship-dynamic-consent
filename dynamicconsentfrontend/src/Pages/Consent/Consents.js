@@ -2,9 +2,9 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-import LoadingScreen from "react-loading-screen";
 import { Table, Icon, Layout } from "antd";
 const { Content } = Layout;
+
 const GET_CONSENTS = gql`
     query {
         consents {
@@ -37,18 +37,15 @@ const columns = [
 ];
 
 const Consents = () => {
-    const { data, loading, error } = useQuery(GET_CONSENTS);
-    if (loading) return <LoadingScreen loading={true}></LoadingScreen>;
-    if (error) return <p>error!</p>;
-    if (!data) return <p>cnf</p>;
-    if (!data.consents) return <p>cnfc</p>;
+    const { data, loading } = useQuery(GET_CONSENTS);
 
     return (
         <Content style={{ padding: "0 50px" }}>
             <div style={{ padding: 24, minHeight: 280 }}>
                 <Table
                     columns={columns}
-                    dataSource={data.consents}
+                    loading={loading}
+                    dataSource={data ? data.consents : []}
                     rowKey="id"
                     size="small"
                 />

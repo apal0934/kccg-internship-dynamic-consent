@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-import LoadingScreen from "react-loading-screen";
 import { Table, Icon, Layout } from "antd";
 const { Content } = Layout;
 
@@ -55,22 +54,18 @@ const columns = [
 ];
 
 const Users = () => {
-    const { data, loading, error } = useQuery(GET_USERS);
-    if (loading) return <LoadingScreen loading={true}></LoadingScreen>;
-    if (error) return <p>error!</p>;
-    if (!data) return <p>cnf</p>;
-    if (!data.users) return <p>cnfu</p>;
+    const { data, loading } = useQuery(GET_USERS);
 
     return (
         <Content style={{ padding: "0 50px" }}>
             <div style={{ padding: 24, minHeight: 280 }}>
                 <Table
                     columns={columns}
-                    dataSource={data.users}
+                    loading={loading}
+                    dataSource={data ? data.users : []}
                     rowKey="id"
                     size="small"
                 />
-                ;
             </div>
         </Content>
     );
