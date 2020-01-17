@@ -1,11 +1,12 @@
+import { Icon, Layout, PageHeader, Switch, Table } from "antd";
 import React, { Component } from "react";
+
 import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { Redirect } from "react-router-dom";
 import gql from "graphql-tag";
 
-import { PageHeader, Table, Icon, Switch, Layout } from "antd";
 const { Content } = Layout;
 export class User extends Component {
     state = {

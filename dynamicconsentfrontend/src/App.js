@@ -1,13 +1,13 @@
-import React from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, HashRouter as Router, Switch } from "react-router-dom";
 
-import Header from "./Components/Header";
-import Users from "./Pages/User/Users";
-import User from "./Pages/User/User";
+import AddConsent from "./Pages/Consent/AddConsent";
 import AddUser from "./Pages/User/AddUser";
 import Consents from "./Pages/Consent/Consents";
-import AddConsent from "./Pages/Consent/AddConsent";
+import Header from "./Components/Header";
 import Landing from "./Pages/Landing";
+import React from "react";
+import User from "./Pages/User/User";
+import Users from "./Pages/User/Users";
 
 function App() {
     return (

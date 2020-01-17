@@ -1,9 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { Icon, Layout, Table } from "antd";
 
-import { Table, Icon, Layout } from "antd";
+import { Link } from "react-router-dom";
+import React from "react";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+
 const { Content } = Layout;
 
 const GET_USERS = gql`
