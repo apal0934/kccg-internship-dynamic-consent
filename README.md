@@ -7,10 +7,11 @@ This is restricted to an extremely limited scope as only one component of a larg
 ## Scope
 
 -   Create users
--   Create consents
 -   Delete users
--   Delete consents
--   Update a user's consent
+-   Update a user's consent for:
+    -   Organisational type
+    -   Purpose
+    -   HPOs (not actual HPOs, for demo purposes)
 
 Anything else (user authentication, validation etc) is out of scope for demonstrating functionality.
 
