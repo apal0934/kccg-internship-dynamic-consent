@@ -31,25 +31,6 @@ const Header = () => {
                     <Link to={"/user/add"}></Link>
                 </Menu.Item>
             </SubMenu>
-            <SubMenu
-                title={
-                    <span>
-                        <Icon type="check" />
-                        Consents
-                    </span>
-                }
-            >
-                <Menu.Item key="consents">
-                    <Icon type="file-protect" />
-                    View consents
-                    <Link to={"/consent/list"}></Link>
-                </Menu.Item>
-                <Menu.Item key="addConsent">
-                    <Icon type="file-add" />
-                    Add consent
-                    <Link to={"/consent/add"}></Link>
-                </Menu.Item>
-            </SubMenu>
         </Menu>
     );
 };

@@ -1,10 +1,13 @@
-import { Icon, Layout, PageHeader, Switch, Table } from "antd";
+import { Layout, PageHeader } from "antd";
 import React, { Component } from "react";
 
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { Redirect } from "react-router-dom";
+import UserHPOsConsent from "./Consents/UserHPOsConsent";
+import UserOrgsConsent from "./Consents/UserOrgsConsent";
+import UserPurposesConsent from "./Consents/UserPurposesConsent";
 import gql from "graphql-tag";
 
 const { Content } = Layout;
@@ -18,7 +21,7 @@ export class User extends Component {
     componentDidMount() {
         const cache = new InMemoryCache();
         const link = new HttpLink({
-            uri: "http://localhost:8000"
+            uri: "http://192.168.220.91:8000"
         });
         const client = new ApolloClient({
             cache,
@@ -28,21 +31,33 @@ export class User extends Component {
         client
             .query({
                 query: gql`
-             {
-                user(id: "${this.props.match.params.id}") {
-                    id
-                    firstName
-                    consents {
+                {
+                    user(id: "${this.props.match.params.id}") {
                         id
+                        firstName
+                        consentOrgs {
+                            id
+                        }
+                        consentPurposes {
+                            id
+                        }
+                        consentHpos {
+                            id
+                        }
                     }
-                }
-                consents {
-                    id
-                    name
-                    purpose
-                    commercial
-                }
-             }`
+                    consentOrgs {
+                        id
+                        orgType
+                    }
+                    consentPurposes {
+                        id
+                        purpose
+                    }
+                    consentHpos {
+                        id
+                        hpo
+                    }
+                 }`
             })
             .then(result =>
                 this.setState({
@@ -62,51 +77,6 @@ export class User extends Component {
         }
     }
 
-    checkConsents(consent, user_consents) {
-        let equal = false;
-        user_consents.forEach(user_consent => {
-            if (user_consent.id.localeCompare(consent.id) === 0) {
-                equal = true;
-            }
-        });
-
-        return equal;
-    }
-
-    onChange(user, consent, checked) {
-        if (checked) {
-            this.state.client.mutate({
-                mutation: gql`
-                        mutation {
-                            addConsents(userId: "${user}", consentIds: ["${consent.id}"]) {
-                            user {
-                                id
-                                consents {
-                                    id
-                                }
-                            }
-                        }
-                    }
-                `
-            });
-        } else {
-            this.state.client.mutate({
-                mutation: gql`
-                        mutation {
-                            revokeConsents(userId: "${user}", consentIds: ["${consent.id}"]) {
-                            user {
-                                id
-                                consents {
-                                    id
-                                }
-                            }
-                        }
-                    }
-                `
-            });
-        }
-    }
-
     render() {
         const routes = [
             {
@@ -122,42 +92,11 @@ export class User extends Component {
             }
         ];
 
-        const columns = [
-            {
-                title: "Name",
-                dataIndex: "name",
-                key: "name"
-            },
-            {
-                title: "Purpose",
-                dataIndex: "purpose",
-                key: "purpose"
-            },
-            {
-                title: "Non-commercial",
-                dataIndex: "commercial",
-                key: "commercial",
-                render: record =>
-                    !record ? <Icon type="check" /> : <Icon type="close" />
-            },
-            {
-                title: "",
-                key: "action",
-                render: record => (
-                    <Switch
-                        defaultChecked={this.checkConsents(
-                            record,
-                            this.state.data.user.consents
-                        )}
-                        onChange={e =>
-                            this.onChange(this.state.data.user.id, record, e)
-                        }
-                    />
-                )
-            }
-        ];
         if (!this.props.location.state) {
             return <Redirect to="/user/list" />;
+        }
+        if (this.state.loading) {
+            return "Loading!";
         }
         return (
             <div>
@@ -165,18 +104,19 @@ export class User extends Component {
                     title={`${this.props.location.state.firstName}'s Consents`}
                     breadcrumb={{ routes }}
                 />
-                <Content style={{ padding: "0 50px" }}>
-                    <div style={{ padding: 24, minHeight: 280 }}>
-                        <Table
-                            columns={columns}
-                            loading={this.state.loading}
-                            dataSource={
-                                !this.state.loading
-                                    ? this.state.data.consents
-                                    : []
-                            }
-                            rowKey="id"
-                            size="small"
+                <Content style={{ padding: "0 100px" }}>
+                    <div style={{ padding: 48, minHeight: 280 }}>
+                        <UserOrgsConsent
+                            data={this.state.data}
+                            client={this.state.client}
+                        />
+                        <UserPurposesConsent
+                            data={this.state.data}
+                            client={this.state.client}
+                        />
+                        <UserHPOsConsent
+                            data={this.state.data}
+                            client={this.state.client}
                         />
                     </div>
                 </Content>

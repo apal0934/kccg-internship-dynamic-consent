@@ -30,7 +30,7 @@ export class Users extends Component {
     componentDidMount() {
         const cache = new InMemoryCache();
         const link = new HttpLink({
-            uri: "http://localhost:8000"
+            uri: "http://192.168.220.91:8000"
         });
         const client = new ApolloClient({
             cache,
@@ -117,7 +117,7 @@ export class Users extends Component {
         },
         {
             title: "",
-            key: "action",
+            key: "action2",
             render: record => (
                 <Button
                     ghost
