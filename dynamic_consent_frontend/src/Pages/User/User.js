@@ -66,7 +66,7 @@ export class User extends Component {
                 breadcrumbName: "Home"
             },
             {
-                path: "users",
+                path: "user/list",
                 breadcrumbName: "Users"
             },
             {
