@@ -1,6 +1,5 @@
-from graphene import Field, List, Mutation, String
+from graphene import Field, List, Mutation, String, Int
 
-from dynamic_consent_backend.models.consent import ConsentOrgModel, ConsentPurposeModel, ConsentHPOModel
 from dynamic_consent_backend.models.user import UserModel
 from dynamic_consent_backend.object_types.user import User
 
@@ -10,9 +9,9 @@ class CreateUser(Mutation):
         email = String()
         first_name = String()
         last_name = String()
-        consent_orgs = List(String)
-        consent_purposes = List(String)
-        consent_hpos = List(String)
+        consent_orgs = List(Int)
+        consent_purposes = List(Int)
+        consent_hpos = List(Int)
 
     user = Field(lambda: User)
 
@@ -51,7 +50,7 @@ class UpdateUser(Mutation):
 class AddConsentOrgs(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -60,8 +59,7 @@ class AddConsentOrgs(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentOrgModel.objects.get(id=consent_id)
-            user.consent_orgs.append(consent)
+            user.consent_orgs.append(consent_id)
 
         user.save()
         return AddConsentOrgs(user=user)
@@ -70,7 +68,7 @@ class AddConsentOrgs(Mutation):
 class RevokeConsentOrgs(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -79,8 +77,7 @@ class RevokeConsentOrgs(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentOrgModel.objects.get(id=consent_id)
-            user.consent_orgs.remove(consent)
+            user.consent_orgs.remove(consent_id)
 
         user.save()
         return RevokeConsentOrgs(user=user)
@@ -89,7 +86,7 @@ class RevokeConsentOrgs(Mutation):
 class AddConsentPurposes(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -98,8 +95,7 @@ class AddConsentPurposes(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentPurposeModel.objects.get(id=consent_id)
-            user.consent_purposes.append(consent)
+            user.consent_purposes.append(consent_id)
 
         user.save()
         return AddConsentPurposes(user=user)
@@ -108,7 +104,7 @@ class AddConsentPurposes(Mutation):
 class RevokeConsentPurposes(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -117,8 +113,7 @@ class RevokeConsentPurposes(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentPurposeModel.objects.get(id=consent_id)
-            user.consent_purposes.remove(consent)
+            user.consent_purposes.remove(consent_id)
 
         user.save()
         return RevokeConsentOrgs(user=user)
@@ -127,7 +122,7 @@ class RevokeConsentPurposes(Mutation):
 class AddConsentHPOs(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -136,8 +131,7 @@ class AddConsentHPOs(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentHPOModel.objects.get(id=consent_id)
-            user.consent_hpos.append(consent)
+            user.consent_hpos.append(consent_id)
 
         user.save()
         return AddConsentHPOs(user=user)
@@ -146,7 +140,7 @@ class AddConsentHPOs(Mutation):
 class RevokeConsentHPOs(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(String)
+        consent_ids = List(Int)
 
     user = Field(lambda: User)
 
@@ -155,8 +149,7 @@ class RevokeConsentHPOs(Mutation):
         user = UserModel.objects.get(id=user_id)
 
         for consent_id in consent_ids:
-            consent = ConsentHPOModel.objects.get(id=consent_id)
-            user.consent_hpos.remove(consent)
+            user.consent_hpos.remove(consent_id)
 
         user.save()
         return RevokeConsentHPOs(user=user)

@@ -35,27 +35,9 @@ export class User extends Component {
                     user(id: "${this.props.match.params.id}") {
                         id
                         firstName
-                        consentOrgs {
-                            id
-                        }
-                        consentPurposes {
-                            id
-                        }
-                        consentHpos {
-                            id
-                        }
-                    }
-                    consentOrgs {
-                        id
-                        orgType
-                    }
-                    consentPurposes {
-                        id
-                        purpose
-                    }
-                    consentHpos {
-                        id
-                        hpo
+                        consentOrgs
+                        consentPurposes 
+                        consentHpos
                     }
                  }`
             })

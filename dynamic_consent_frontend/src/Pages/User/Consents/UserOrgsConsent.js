@@ -7,7 +7,7 @@ export class UserOrgsConsent extends Component {
     checkConsents(consent, user_consents) {
         let equal = false;
         user_consents.forEach(user_consent => {
-            if (user_consent.id.localeCompare(consent.id) === 0) {
+            if (user_consent === consent.key) {
                 equal = true;
             }
         });
@@ -20,12 +20,10 @@ export class UserOrgsConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            addConsentOrgs(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            addConsentOrgs(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentOrgs {
-                                    id
-                                }
+                                consentOrgs 
                             }
                         }
                     }
@@ -35,12 +33,10 @@ export class UserOrgsConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            revokeConsentOrgs(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            revokeConsentOrgs(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentOrgs {
-                                    id
-                                }
+                                consentOrgs
                             }
                         }
                     }
@@ -50,25 +46,29 @@ export class UserOrgsConsent extends Component {
     }
 
     render() {
+        const data = [
+            {
+                key: 1,
+                orgType: "Not-for-profit institutes"
+            },
+            {
+                key: 2,
+                orgType: "University and research institutes"
+            },
+            {
+                key: 3,
+                orgType: "Government institutes"
+            },
+            {
+                key: 4,
+                orgType: "Commercial companies"
+            }
+        ];
         const columns = [
             {
                 title: "Organisation Type",
                 dataIndex: "orgType",
-                key: "orgType",
-                render: record => {
-                    switch (record) {
-                        case 1:
-                            return "Not-for-profit research institutes";
-                        case 2:
-                            return "University or research institutes";
-                        case 3:
-                            return "Government institutes";
-                        case 4:
-                            return "Commercial companies";
-                        default:
-                            return "Unknown";
-                    }
-                }
+                key: "orgType"
             },
             {
                 title: "Consent",
@@ -90,8 +90,7 @@ export class UserOrgsConsent extends Component {
             <div style={{ padding: 24 }}>
                 <Table
                     columns={columns}
-                    dataSource={this.props.data.consentOrgs}
-                    rowKey="id"
+                    dataSource={data}
                     size="small"
                     pagination={false}
                 />

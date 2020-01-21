@@ -7,7 +7,7 @@ export class UserHPOsConsent extends Component {
     checkConsents(consent, user_consents) {
         let equal = false;
         user_consents.forEach(user_consent => {
-            if (user_consent.id.localeCompare(consent.id) === 0) {
+            if (user_consent === consent.key) {
                 equal = true;
             }
         });
@@ -20,12 +20,10 @@ export class UserHPOsConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            addConsentHpos(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            addConsentHpos(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentHpos {
-                                    id
-                                }
+                                consentHpos
                             }
                         }
                     }
@@ -35,12 +33,10 @@ export class UserHPOsConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            revokeConsentHpos(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            revokeConsentHpos(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentHpos {
-                                    id
-                                }
+                                consentHpos 
                             }
                         }
                     }
@@ -50,25 +46,30 @@ export class UserHPOsConsent extends Component {
     }
 
     render() {
+        const data = [
+            {
+                key: 1,
+                hpo: "Cancer"
+            },
+            {
+                key: 2,
+                hpo: "Blood"
+            },
+            {
+                key: 3,
+                hpo: "Rare diseases"
+            },
+            {
+                key: 4,
+                hpo: "Deformities"
+            }
+        ];
+
         const columns = [
             {
                 title: "For...",
                 dataIndex: "hpo",
-                key: "hpo",
-                render: record => {
-                    switch (record) {
-                        case 1:
-                            return "Blood";
-                        case 2:
-                            return "Cancer";
-                        case 3:
-                            return "Rare diseases";
-                        case 4:
-                            return "Deformities";
-                        default:
-                            return "Unknown";
-                    }
-                }
+                key: "hpo"
             },
             {
                 title: "Consent",
@@ -90,8 +91,7 @@ export class UserHPOsConsent extends Component {
             <div style={{ padding: 24 }}>
                 <Table
                     columns={columns}
-                    dataSource={this.props.data.consentHpos}
-                    rowKey="id"
+                    dataSource={data}
                     size="small"
                     pagination={false}
                 />

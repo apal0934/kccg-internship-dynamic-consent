@@ -7,7 +7,7 @@ export class UserPurposesConsent extends Component {
     checkConsents(consent, user_consents) {
         let equal = false;
         user_consents.forEach(user_consent => {
-            if (user_consent.id.localeCompare(consent.id) === 0) {
+            if (user_consent === consent.key) {
                 equal = true;
             }
         });
@@ -20,12 +20,10 @@ export class UserPurposesConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            addConsentPurposes(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            addConsentPurposes(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentPurposes {
-                                    id
-                                }
+                                consentPurposes
                             }
                         }
                     }
@@ -35,12 +33,10 @@ export class UserPurposesConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            revokeConsentPurposes(userId: "${user}", consentIds: ["${consent.id}"]) {
+                            revokeConsentPurposes(userId: "${user}", consentIds: [${consent.key}]) {
                             user {
                                 id
-                                consentPurposes {
-                                    id
-                                }
+                                consentPurposes
                             }
                         }
                     }
@@ -50,23 +46,26 @@ export class UserPurposesConsent extends Component {
     }
 
     render() {
+        const data = [
+            {
+                key: 1,
+                purpose: "General research and clinical use"
+            },
+            {
+                key: 2,
+                purpose: "Health/Medical/Biomedical research"
+            },
+            {
+                key: 3,
+                purpose: "Population and Ancestery research"
+            }
+        ];
+
         const columns = [
             {
                 title: "Purpose",
                 dataIndex: "purpose",
-                key: "purpose",
-                render: record => {
-                    switch (record) {
-                        case 1:
-                            return "General research and clinical use";
-                        case 2:
-                            return "Health/Medical/Biomedical research";
-                        case 3:
-                            return "Population and Ancestry research";
-                        default:
-                            return "Unknown";
-                    }
-                }
+                key: "purpose"
             },
             {
                 title: "Consent",
@@ -88,8 +87,7 @@ export class UserPurposesConsent extends Component {
             <div style={{ padding: 24 }}>
                 <Table
                     columns={columns}
-                    dataSource={this.props.data.consentPurposes}
-                    rowKey="id"
+                    dataSource={data}
                     size="small"
                     pagination={false}
                 />
