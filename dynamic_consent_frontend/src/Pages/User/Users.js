@@ -30,7 +30,7 @@ export class Users extends Component {
     componentDidMount() {
         const cache = new InMemoryCache();
         const link = new HttpLink({
-            uri: "http://192.168.220.91:8000"
+            uri: `http://${this.props.IP}:8000`
         });
         const client = new ApolloClient({
             cache,
@@ -106,7 +106,8 @@ export class Users extends Component {
                         to={{
                             pathname: `/user/${record.id}`,
                             state: {
-                                firstName: record.firstName
+                                firstName: record.firstName,
+                                IP: this.props.IP
                             }
                         }}
                     >
