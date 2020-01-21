@@ -1,55 +1,43 @@
-from graphene import Boolean, Field, Mutation, String
+from graphene import Field, Mutation, Int
 
-from dynamic_consent_backend.models.consent import ConsentModel
-from dynamic_consent_backend.object_types.consent import Consent
+from dynamic_consent_backend.models.consent import ConsentOrgModel, ConsentPurposeModel, ConsentHPOModel
+from dynamic_consent_backend.object_types.consent import ConsentOrg, ConsentPurpose, ConsentHPO
 
 
-class CreateConsent(Mutation):
+class CreateConsentOrg(Mutation):
     class Arguments:
-        name = String()
-        purpose = String()
-        commercial = Boolean()
+        org_type = Int(required=True)
 
-    consent = Field(lambda: Consent)
+    consent_org = Field(lambda: ConsentOrg)
 
     @staticmethod
-    def mutate(root, info, name, purpose, commercial):
-        consent = ConsentModel(name=name, purpose=purpose, commercial=commercial)
-        consent.save()
-        return CreateConsent(consent=consent)
+    def mutate(root, info, org_type):
+        consent_org = ConsentOrgModel(org_type=org_type)
+        consent_org.save()
+        return CreateConsentOrg(consent_org=consent_org)
 
 
-class UpdateConsent(Mutation):
+class CreateConsentPurpose(Mutation):
     class Arguments:
-        id = String(required=True)
-        name = String()
-        purpose = String()
-        commercial = Boolean()
+        purpose = Int(required=True)
 
-    consent = Field(lambda: Consent)
+    consent_purpose = Field(lambda: ConsentPurpose)
 
     @staticmethod
-    def mutate(root, info, id, name=None, purpose=None, commercial=None):
-        consent = ConsentModel.objects.get(id=id)
-        if name:
-            consent.name = name
-        if purpose:
-            consent.purpose = purpose
-        if commercial is not None:
-            consent.commercial = commercial
-
-        consent.save()
-        return UpdateConsent(consent=consent)
+    def mutate(root, info, purpose):
+        consent_purpose = ConsentPurposeModel(purpose=purpose)
+        consent_purpose.save()
+        return CreateConsentPurpose(consent_purpose=consent_purpose)
 
 
-class DeleteConsent(Mutation):
+class CreateConsentHPO(Mutation):
     class Arguments:
-        id = String(required=True)
+        hpo = Int(required=True)
 
-    consent = Field(lambda: Consent)
+    consent_hpo = Field(lambda: ConsentHPO)
 
     @staticmethod
-    def mutate(root, info, id):
-        consent = ConsentModel.objects.get(id=id)
-        consent.delete()
-        return DeleteConsent(consent=consent)
+    def mutate(root, info, hpo):
+        consent_hpo = ConsentHPOModel(hpo=hpo)
+        consent_hpo.save()
+        return CreateConsentHPO(consent_hpo=consent_hpo)

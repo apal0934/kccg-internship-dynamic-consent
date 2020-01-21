@@ -1,9 +1,14 @@
 from mongoengine import Document
-from mongoengine.fields import BooleanField, StringField
+from mongoengine.fields import IntField
 
 
-class ConsentModel(Document):
-    meta = {"collection": "consent"}
-    name = StringField(required=True)
-    purpose = StringField(required=True)
-    commercial = BooleanField(required=True)
+class ConsentOrgModel(Document):
+    org_type = IntField(required=True)
+
+
+class ConsentPurposeModel(Document):
+    purpose = IntField(required=True)
+
+
+class ConsentHPOModel(Document):
+    hpo = IntField(required=True)

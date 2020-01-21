@@ -1,8 +1,18 @@
 from graphene_mongo import MongoengineObjectType
 
-from dynamic_consent_backend.models.consent import ConsentModel
+from dynamic_consent_backend.models.consent import ConsentOrgModel, ConsentPurposeModel, ConsentHPOModel
 
 
-class Consent(MongoengineObjectType):
+class ConsentOrg(MongoengineObjectType):
     class Meta:
-        model = ConsentModel
+        model = ConsentOrgModel
+
+
+class ConsentPurpose(MongoengineObjectType):
+    class Meta:
+        model = ConsentPurposeModel
+
+
+class ConsentHPO(MongoengineObjectType):
+    class Meta:
+        model = ConsentHPOModel
