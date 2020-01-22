@@ -6,6 +6,7 @@ from dynamic_consent_backend.object_types.user import User
 
 class CreateUser(Mutation):
     class Arguments:
+        user_id = Int(required=True)
         email = String()
         first_name = String()
         last_name = String()
@@ -16,10 +17,8 @@ class CreateUser(Mutation):
     user = Field(lambda: User)
 
     @staticmethod
-    def mutate(root, info, email, first_name, last_name, consent_orgs=[], consent_purposes=[], consent_hpos=[]):
-        user = UserModel(
-            email=email, first_name=first_name, last_name=last_name, consent_orgs=consent_orgs, consent_purposes=consent_purposes, consent_hpos=consent_hpos
-        )
+    def mutate(root, info, user_id, email, first_name, last_name, consent_orgs=[], consent_purposes=[], consent_hpos=[]):
+        user = UserModel(user_id=user_id, email=email, first_name=first_name, last_name=last_name, consent_orgs=consent_orgs, consent_purposes=consent_purposes, consent_hpos=consent_hpos)
         user.save()
         return CreateUser(user=user)
 
