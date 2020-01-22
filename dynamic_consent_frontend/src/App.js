@@ -8,7 +8,7 @@ import User from "./Pages/User/User";
 import Users from "./Pages/User/Users";
 
 function App() {
-    const API_IP = "172.21.78.131";
+    const API_IP = "localhost";
 
     return (
         <div className="App">
