@@ -11,3 +11,7 @@ class UserModel(Document):
     consent_orgs = ListField(IntField())
     consent_purposes = ListField(IntField())
     consent_hpos = ListField(IntField())
+
+
+class UserIdModel(Document):
+    counter = IntField()
