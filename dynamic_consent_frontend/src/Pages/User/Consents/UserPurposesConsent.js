@@ -20,7 +20,7 @@ export class UserPurposesConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            addConsentPurposes(userId: "${user}", consentIds: [${consent.key}]) {
+                            addConsentPurposes(userId: "${user}", consentIds: ["${consent.key}"]) {
                             user {
                                 id
                                 consentPurposes
@@ -33,7 +33,7 @@ export class UserPurposesConsent extends Component {
             this.props.client.mutate({
                 mutation: gql`
                         mutation {
-                            revokeConsentPurposes(userId: "${user}", consentIds: [${consent.key}]) {
+                            revokeConsentPurposes(userId: "${user}", consentIds: ["${consent.key}"]) {
                             user {
                                 id
                                 consentPurposes
@@ -48,15 +48,19 @@ export class UserPurposesConsent extends Component {
     render() {
         const data = [
             {
-                key: 1,
-                purpose: "General research and clinical use"
+                key: "DUO:0000005",
+                purpose: "General research use and clinical care"
             },
             {
-                key: 2,
+                key: "DUO:0000006",
                 purpose: "Health/Medical/Biomedical research"
             },
             {
-                key: 3,
+                key: "DUO:0000007",
+                purpose: "Research must be specifically related to my condition"
+            },
+            {
+                key: "DUO:0000011",
                 purpose: "Population and Ancestery research"
             }
         ];
