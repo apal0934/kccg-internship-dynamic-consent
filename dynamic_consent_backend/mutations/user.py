@@ -1,5 +1,5 @@
 from graphene import Field, List, Mutation, String, Int
-
+from datetime import datetime
 from dynamic_consent_backend.models.user import UserModel
 from dynamic_consent_backend.object_types.user import User
 from dynamic_consent_backend.object_types.user import UserId
@@ -11,15 +11,13 @@ class CreateUser(Mutation):
         email = String()
         first_name = String()
         last_name = String()
-        consent_orgs = List(Int)
-        consent_purposes = List(Int)
-        consent_hpos = List(Int)
+        date_of_birth = String()
 
     user = Field(lambda: User)
 
-    def mutate(root, info, email, first_name, last_name, consent_orgs=[], consent_purposes=[], consent_hpos=[]):
+    def mutate(root, info, email, first_name, last_name, date_of_birth):
         counter = UserIdModel.objects.first()
-        user = UserModel(user_id=counter.counter, email=email, first_name=first_name, last_name=last_name, consent_orgs=consent_orgs, consent_purposes=consent_purposes, consent_hpos=consent_hpos)
+        user = UserModel(user_id=counter.counter, email=email, first_name=first_name, last_name=last_name, date_of_birth=datetime.fromtimestamp(int(date_of_birth) / 1000.0))
         user.save()
         counter.counter += 1
         counter.save()
@@ -88,7 +86,7 @@ class RevokeConsentOrgs(Mutation):
 class AddConsentPurposes(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(Int)
+        consent_ids = List(String)
 
     user = Field(lambda: User)
 
@@ -106,7 +104,7 @@ class AddConsentPurposes(Mutation):
 class RevokeConsentPurposes(Mutation):
     class Arguments:
         user_id = String(required=True)
-        consent_ids = List(Int)
+        consent_ids = List(String)
 
     user = Field(lambda: User)
 

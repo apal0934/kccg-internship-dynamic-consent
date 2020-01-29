@@ -1,4 +1,4 @@
-import { Button, Form, Icon, Input, Layout } from "antd";
+import { Button, DatePicker, Form, Icon, Input, Layout } from "antd";
 import React, { Component } from "react";
 
 import { ApolloClient } from "apollo-client";
@@ -27,16 +27,22 @@ class AddUser extends Component {
             cache,
             link
         });
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const ADD_USER = gql`
                     mutation {
-                        createUser(email: "${values.email}", firstName: "${values.firstName}", lastName: "${values.lastName}") {
+                        createUser(email: "${values.email}", firstName: "${
+                    values.firstName
+                }", lastName: "${
+                    values.lastName
+                }", dateOfBirth: "${values.dob._d.getTime()}") {
                             user {
                                 id
                                 firstName
                                 lastName
                                 email
+                                dateOfBirth
                             }
                         }
                     }`;
@@ -66,6 +72,8 @@ class AddUser extends Component {
         const lastNameError =
             isFieldTouched("lastName") && getFieldError("lastName");
         const emailError = isFieldTouched("email") && getFieldError("email");
+        const dateOfBirthError =
+            isFieldTouched("dob") && getFieldDecorator("dob");
         return (
             <Content style={{ padding: "0 50px" }}>
                 <div style={{ padding: 24, minHeight: 280 }}>
@@ -133,6 +141,22 @@ class AddUser extends Component {
                                     type="email"
                                 />
                             )}
+                        </Form.Item>
+                        <Form.Item
+                            validateStatus={dateOfBirthError ? "error" : ""}
+                            help={dateOfBirthError || ""}
+                            label="Date of Birth"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 14 }}
+                        >
+                            {getFieldDecorator("dob", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: "Date of birth is required"
+                                    }
+                                ]
+                            })(<DatePicker placeholder="Select date" />)}
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 14, offset: 4 }}>
                             <Button

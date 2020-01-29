@@ -16,6 +16,7 @@ const GET_USERS = gql`
             firstName
             lastName
             email
+            dateOfBirth
         }
     }
 `;
@@ -75,6 +76,7 @@ export class Users extends Component {
                     firstName
                     lastName
                     email
+                    dateOfBirth
                 }
             }
         }`;
@@ -96,6 +98,12 @@ export class Users extends Component {
             title: "Email",
             dataIndex: "email",
             key: "email"
+        },
+        {
+            title: "Date of Birth",
+            dataIndex: "dateOfBirth",
+            key: "dateOfBirth",
+            render: text => <div>{text.substring(0, 10)}</div>
         },
         {
             title: "",
