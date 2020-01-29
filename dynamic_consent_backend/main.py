@@ -10,7 +10,7 @@ from dynamic_consent_backend.object_types.user import User
 
 
 class Query(ObjectType):
-    users = List(User, consent_org=Int(), consent_purpose=Int(), consent_hpo=Int())
+    users = List(User, consent_org=Int(), consent_purpose=String(), consent_hpo=Int())
     user = Field(User, id=String())
 
     def resolve_users(self, info, consent_org=None, consent_purpose=None, consent_hpo=None):
