@@ -17,7 +17,7 @@ class CreateUser(Mutation):
 
     def mutate(root, info, email, first_name, last_name, date_of_birth):
         counter = UserIdModel.objects.first()
-        user = UserModel(user_id=counter.counter, email=email, first_name=first_name, last_name=last_name, date_of_birth=datetime.fromtimestamp(int(date_of_birth) / 1000.0))
+        user = UserModel(user_id=counter.counter, email=email, first_name=first_name, last_name=last_name, date_of_birth=datetime.fromtimestamp(int(date_of_birth) / 1000.0).date())
         user.save()
         counter.counter += 1
         counter.save()
