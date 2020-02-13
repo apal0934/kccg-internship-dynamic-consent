@@ -8,10 +8,11 @@ The backend API and models for this prototype. Written in FastAPI, using GraphQL
 # Install dependencies
 pipenv install --dev
 
-# Setup pre-commit and pre-push hooks
-pipenv run pre-commit install -t pre-commit
-pipenv run pre-commit install -t pre-push
+# Run server
+uvicorn dynamic_consent_backend.main:app
 ```
+
+Run from root of repo.
 
 ## Credits
 
