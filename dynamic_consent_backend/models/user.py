@@ -11,7 +11,6 @@ class UserModel(Document):
     date_of_birth = DateTimeField()
     consent_orgs = ListField(IntField())
     consent_purposes = ListField(StringField())
-    consent_hpos = ListField(IntField())
 
 
 class UserIdModel(Document):

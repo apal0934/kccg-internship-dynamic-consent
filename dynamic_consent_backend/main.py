@@ -12,12 +12,12 @@ from dynamic_consent_backend.object_types.user import User
 
 
 class Query(ObjectType):
-    users = List(User, consent_org=Int(), consent_purpose=List(String), consent_hpo=Int())
+    users = List(User, consent_org=Int(), consent_purpose=List(String))
     user = Field(User, id=String(), first_name=String(), last_name=String(), date_of_birth=String())
 
-    def resolve_users(self, info, consent_org=None, consent_purpose=None, consent_hpo=None):
-        if consent_org and consent_purpose and consent_hpo:
-            return list(UserModel.objects(consent_orgs=consent_org, consent_purposes__all=consent_purpose, consent_hpos=consent_hpo))
+    def resolve_users(self, info, consent_org=None, consent_purpose=None):
+        if consent_org and consent_purpose:
+            return list(UserModel.objects(consent_orgs=consent_org, consent_purposes__all=consent_purpose))
         return list(UserModel.objects.all())
 
     def resolve_user(self, info, id=None, first_name=None, last_name=None, date_of_birth=None):

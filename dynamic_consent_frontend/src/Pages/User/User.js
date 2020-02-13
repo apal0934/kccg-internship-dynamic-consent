@@ -5,7 +5,6 @@ import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { Redirect } from "react-router-dom";
-import UserHPOsConsent from "./Consents/UserHPOsConsent";
 import UserOrgsConsent from "./Consents/UserOrgsConsent";
 import UserPurposesConsent from "./Consents/UserPurposesConsent";
 import gql from "graphql-tag";
@@ -37,7 +36,6 @@ export class User extends Component {
                         firstName
                         consentOrgs
                         consentPurposes 
-                        consentHpos
                     }
                  }`
             })
@@ -93,10 +91,6 @@ export class User extends Component {
                             client={this.state.client}
                         />
                         <UserPurposesConsent
-                            data={this.state.data}
-                            client={this.state.client}
-                        />
-                        <UserHPOsConsent
                             data={this.state.data}
                             client={this.state.client}
                         />

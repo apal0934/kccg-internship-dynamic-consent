@@ -47,6 +47,7 @@ export class UserPurposesConsent extends Component {
 
     render() {
         const data = [
+            { key: "DUO:0000042", purpose: "General research use" },
             {
                 key: "DUO:0000005",
                 purpose: "General research use and clinical care"
