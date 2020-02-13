@@ -119,6 +119,42 @@ class RevokeConsentPurposes(Mutation):
         return RevokeConsentOrgs(user=user)
 
 
+class AddConsentHPOs(Mutation):
+    class Arguments:
+        user_id = String(required=True)
+        consent_ids = List(String)
+
+    user = Field(lambda: User)
+
+    @staticmethod
+    def mutate(root, info, user_id, consent_ids):
+        user = UserModel.objects.get(id=user_id)
+
+        for consent_id in consent_ids:
+            user.consent_hpos.append(consent_id)
+
+        user.save()
+        return AddConsentHPOs(user=user)
+
+
+class RevokeConsentHPOs(Mutation):
+    class Arguments:
+        user_id = String(required=True)
+        consent_ids = List(String)
+
+    user = Field(lambda: User)
+
+    @staticmethod
+    def mutate(root, info, user_id, consent_ids):
+        user = UserModel.objects.get(id=user_id)
+
+        for consent_id in consent_ids:
+            user.consent_hpos.remove(consent_id)
+
+        user.save()
+        return RevokeConsentHPOs(user=user)
+
+
 class DeleteUser(Mutation):
     class Arguments:
         id = String(required=True)
