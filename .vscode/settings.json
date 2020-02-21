@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/alex/.local/share/virtualenvs/dynamic-consent-UwW-KJm4/bin/python",
+    "python.pythonPath": "/Users/alexpalmer/.local/share/virtualenvs/dynamic-consent-9MLPFjaI/bin/python",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true
