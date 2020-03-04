@@ -31,7 +31,7 @@ export class Users extends Component {
     componentDidMount() {
         const cache = new InMemoryCache();
         const link = new HttpLink({
-            uri: `http://${this.props.IP}:8000`
+            uri: `http://${this.props.IP}`
         });
         const client = new ApolloClient({
             cache,

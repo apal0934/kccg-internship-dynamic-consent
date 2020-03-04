@@ -11,7 +11,7 @@ import Users from "./Pages/User/Users";
 const { Footer } = Layout;
 
 function App() {
-    const API_IP = "localhost";
+    const API_IP = process.env.REACT_APP_BACKEND_IP;
 
     return (
         <div className="App">
