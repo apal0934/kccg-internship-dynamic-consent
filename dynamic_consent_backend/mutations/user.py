@@ -2,8 +2,6 @@ from graphene import Field, List, Mutation, String, Int
 from datetime import datetime
 from dynamic_consent_backend.models.user import UserModel
 from dynamic_consent_backend.object_types.user import User
-from dynamic_consent_backend.object_types.user import UserId
-from dynamic_consent_backend.models.user import UserIdModel
 
 
 class CreateUser(Mutation):
@@ -16,11 +14,13 @@ class CreateUser(Mutation):
     user = Field(lambda: User)
 
     def mutate(root, info, email, first_name, last_name, date_of_birth):
-        counter = UserIdModel.objects.first()
-        user = UserModel(user_id=counter.counter, email=email, first_name=first_name, last_name=last_name, date_of_birth=datetime.fromtimestamp(int(date_of_birth) / 1000.0).date())
+        user = UserModel(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=datetime.fromtimestamp(int(date_of_birth) / 1000.0).date(),
+        )
         user.save()
-        counter.counter += 1
-        counter.save()
         return CreateUser(user=user)
 
 
@@ -166,15 +166,3 @@ class DeleteUser(Mutation):
         user = UserModel.objects.get(id=id)
         user.delete()
         return DeleteUser(user=user)
-
-
-class AddCounter(Mutation):
-    class Arguments:
-        counter = Int(required=True)
-
-    counter = Field(lambda: UserId)
-
-    def mutate(root, info, counter):
-        counter = UserIdModel(counter=counter)
-        counter.save()
-        return AddCounter(counter=counter)

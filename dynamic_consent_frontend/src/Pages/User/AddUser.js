@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import axios from "axios";
 import gql from "graphql-tag";
 
 const { Content } = Layout;
@@ -19,10 +20,10 @@ class AddUser extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const cache = new InMemoryCache();
         const link = new HttpLink({
             uri: `http://${this.props.IP}`
         });
+        const cache = new InMemoryCache();
         const client = new ApolloClient({
             cache,
             link
@@ -52,6 +53,35 @@ class AddUser extends Component {
                     })
                     .then(result => {
                         if (!result.error) {
+                            const url = `http://${process.env.REACT_APP_GENETRUSTEE_IP}`;
+                            const body = {
+                                query: `
+                                    mutation addMapping(
+                                        $userId: String!
+                                        $sampleId: String!
+                                    ) {
+                                        createMapping(
+                                            userId: $userId
+                                            genomeId: $sampleId
+                                        ) {
+                                            mapping {
+                                                userId
+                                                genomeId
+                                            }
+                                        }
+                                    }
+                                `,
+                                variables: {
+                                    userId: result.data.createUser.user.id,
+                                    sampleId: values.sampleId
+                                }
+                            };
+                            const config = {
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            };
+                            axios.post(url, body, config);
                             this.props.form.resetFields();
                         }
                     });
@@ -143,8 +173,8 @@ class AddUser extends Component {
                             )}
                         </Form.Item>
                         <Form.Item
-                            validateStatus={dateOfBirthError ? "error" : ""}
-                            help={dateOfBirthError || ""}
+                            validateStatus={""}
+                            help={""}
                             label="Date of Birth"
                             labelCol={{ span: 4 }}
                             wrapperCol={{ span: 14 }}
@@ -157,6 +187,21 @@ class AddUser extends Component {
                                     }
                                 ]
                             })(<DatePicker placeholder="Select date" />)}
+                        </Form.Item>
+                        <Form.Item
+                            validateStatus={""}
+                            help={""}
+                            label="Sample ID"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 14 }}
+                        >
+                            {getFieldDecorator("sampleId", {
+                                rules: [
+                                    {
+                                        required: true
+                                    }
+                                ]
+                            })(<Input placeholder="Sample ID" />)}
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 14, offset: 4 }}>
                             <Button

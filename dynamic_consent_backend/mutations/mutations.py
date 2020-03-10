@@ -10,7 +10,6 @@ from dynamic_consent_backend.mutations.user import (
     RevokeConsentPurposes,
     AddConsentHPOs,
     RevokeConsentHPOs,
-    AddCounter
 )
 
 
@@ -25,5 +24,3 @@ class Mutations(ObjectType):
     revoke_consent_purposes = RevokeConsentPurposes.Field()
     add_consent_hpos = AddConsentHPOs.Field()
     revoke_consent_hpos = RevokeConsentHPOs.Field()
-
-    add_counter = AddCounter.Field()

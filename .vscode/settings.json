@@ -2,5 +2,6 @@
     "python.pythonPath": "/Users/alexpalmer/.local/share/virtualenvs/dynamic-consent-9MLPFjaI/bin/python",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black"
 }
